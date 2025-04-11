@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "United States" },
+      "id": "USA",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[100, 40], [120, 40], [120, 50], [100, 50], [100, 40]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "United Kingdom" },
+      "id": "GBR",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-5, 50], [2, 50], [2, 58], [-5, 58], [-5, 50]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Germany" },
+      "id": "DEU",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[6, 47], [15, 47], [15, 55], [6, 55], [6, 47]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "India" },
+      "id": "IND",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[68, 8], [97, 8], [97, 37], [68, 37], [68, 8]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Brazil" },
+      "id": "BRA",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-74, -34], [-34, -34], [-34, 5], [-74, 5], [-74, -34]]]
+      }
+    }
+  ]
+}
