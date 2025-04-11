@@ -6,8 +6,8 @@ import {
   RiCalendarLine,
   RiCheckLine,
   RiFileTextLine,
-  RiCreditCard2Line,
   RiMoneyDollarCircleLine,
+  RiVisaLine
 } from 'react-icons/ri';
 import StatsWidget from '../components/widgets/StatsWidget';
 import LineChart from '../components/charts/LineChart';
@@ -65,7 +65,7 @@ const Dashboard = () => {
     {
       title: 'Subscriptions',
       value: 820,
-      icon: RiCreditCard2Line,
+      icon: RiVisaLine,
       trend: 'up',
       trendValue: '14.2%',
       color: 'blue',
