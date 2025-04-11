@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ThemeContext = createContext();
 
@@ -8,24 +9,36 @@ export function useTheme() {
 
 export default function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    return savedTheme;
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'light';
+    }
+    return 'light';
   });
 
   useEffect(() => {
-    localStorage.setItem('theme', theme);
-    const root = document.documentElement;
+    const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggleTheme = (newTheme) => {
-    setTheme(newTheme);
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={theme}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
     </ThemeContext.Provider>
   );
 }
