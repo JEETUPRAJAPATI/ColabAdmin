@@ -1,49 +1,150 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
+import {
+  RiDashboardLine,
+  RiTeamLine,
+  RiFileTextLine,
+  RiPieChartLine,
+  RiSearchEyeLine,
+  RiSettings4Line,
+  RiMenuFoldLine,
+  RiMenuUnfoldLine,
+  RiBellLine,
+  RiNotification3Line,
+  RiSunLine,
+  RiMoonLine,
+  RiLogoutBoxLine,
+  RiUserLine
+} from 'react-icons/ri';
 
-function Sidebar({ isOpen, setIsOpen }) {
+function Sidebar() {
+  const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
   const menuItems = [
-    { name: 'Dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-    { name: 'User Management', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-    { name: 'Blog & Content', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z' },
-    { name: 'Messages', icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z' },
-    { name: 'Notifications', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9' },
-    { name: 'Subscriptions', icon: 'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z' },
-    { name: 'Analytics', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-    { name: 'SEO Manager', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
-    { name: 'Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' },
-  ]
+    { name: 'Dashboard', icon: RiDashboardLine, path: '/' },
+    { name: 'Users', icon: RiTeamLine, path: '/users' },
+    { name: 'Content', icon: RiFileTextLine, path: '/content' },
+    { name: 'Analytics', icon: RiPieChartLine, path: '/analytics' },
+    { name: 'SEO', icon: RiSearchEyeLine, path: '/seo' },
+    { name: 'Settings', icon: RiSettings4Line, path: '/settings' }
+  ];
+
+  const sidebarWidth = isCollapsed ? 'w-20' : 'w-64';
+
+  const handleLogout = () => {
+    // Add logout logic here
+    console.log('Logging out...');
+  };
 
   return (
-    <div className={`${isOpen ? 'w-64' : 'w-20'} transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-screen overflow-y-auto fixed`}>
-      <div className="p-4 flex items-center justify-between">
-        {isOpen && <h1 className="text-xl font-bold text-gray-800 dark:text-white">Admin Panel</h1>}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
-        >
-          <svg className="w-6 h-6 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M11 19l-7-7 7-7m8 14l-7-7 7-7" : "M13 5l7 7-7 7M5 5l7 7-7 7"} />
-          </svg>
-        </button>
-      </div>
-      
-      <nav className="mt-4">
-        {menuItems.map((item, index) => (
-          <Link 
-            key={index}
-            to="/" 
-            className="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+    <>
+      {/* Top Navigation Bar */}
+      <div className="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-[#1a1f2e] border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 z-50">
+        <div className="flex items-center">
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-            </svg>
-            {isOpen && <span className="ml-3">{item.name}</span>}
-          </Link>
-        ))}
-      </nav>
-    </div>
-  )
+            {isCollapsed ? <RiMenuUnfoldLine size={24} /> : <RiMenuFoldLine size={24} />}
+          </button>
+          <h1 className="text-gray-800 dark:text-white text-xl font-bold ml-4">AdminHub</h1>
+        </div>
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => toggleTheme(theme === 'light' ? 'dark' : 'light')}
+            className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            {theme === 'light' ? <RiMoonLine size={24} /> : <RiSunLine size={24} />}
+          </button>
+          <button className="p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 relative">
+            <RiBellLine size={24} />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="flex items-center space-x-2 focus:outline-none"
+            >
+              <img
+                src="https://ui-avatars.com/api/?name=Admin+User"
+                alt="Profile"
+                className="w-8 h-8 rounded-full"
+              />
+              {!isCollapsed && (
+                <span className="text-gray-700 dark:text-gray-300">Admin User</span>
+              )}
+            </button>
+            
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-1 z-50">
+                <Link
+                  to="/profile"
+                  className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <RiUserLine className="mr-2" />
+                  Profile
+                </Link>
+                <Link
+                  to="/settings"
+                  className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <RiSettings4Line className="mr-2" />
+                  Settings
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center w-full px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <RiLogoutBoxLine className="mr-2" />
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Sidebar */}
+      <div className={`fixed left-0 top-16 h-[calc(100vh-4rem)] ${sidebarWidth} bg-white dark:bg-[#1a1f2e] border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out z-40`}>
+        <nav className="p-4 flex flex-col h-full">
+          <div className="flex-1">
+            {menuItems.map((item, index) => (
+              <Link
+                key={index}
+                to={item.path}
+                className={`flex items-center px-4 py-3 rounded-lg mb-2 transition-colors ${
+                  location.pathname === item.path
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+              >
+                <item.icon size={24} />
+                {!isCollapsed && <span className="ml-3">{item.name}</span>}
+              </Link>
+            ))}
+          </div>
+          
+          {/* Logout Button at Bottom */}
+          <button
+            onClick={handleLogout}
+            className="flex items-center px-4 py-3 rounded-lg text-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <RiLogoutBoxLine size={24} />
+            {!isCollapsed && <span className="ml-3">Logout</span>}
+          </button>
+        </nav>
+      </div>
+
+      {/* Main Content Wrapper */}
+      <div className={`pt-16 ${isCollapsed ? 'ml-20' : 'ml-64'} transition-all duration-300 ease-in-out`}>
+        {/* Content will be rendered here */}
+      </div>
+    </>
+  );
 }
 
-export default Sidebar
+export default Sidebar;
