@@ -9,24 +9,12 @@ import {
   RiUserAddLine,
   RiLineChartLine,
   RiUserHeartLine,
-  RiVisaLine,
-  RiMoneyDollarCircleLine,
-  RiGlobalLine,
-  RiSmartphoneLine,
-  RiSearchEyeLine,
-  RiTimeLine,
-  RiLogoutCircleLine,
-  RiUserStarLine,
 } from 'react-icons/ri';
 import StatsWidget from '../components/widgets/StatsWidget';
 import LineChart from '../components/charts/LineChart';
 import BarChart from '../components/charts/BarChart';
-import WorldMap from '../components/charts/WorldMap';
 import DeviceBreakdown from '../components/charts/DeviceBreakdown';
-import RecentActivity from '../components/RecentActivity';
-import RecentBlogs from '../components/RecentBlogs';
 import UserList from '../components/UserList';
-import { WidgetSkeleton, ChartSkeleton, TableSkeleton } from '../components/LoadingState';
 
 const generateTimeSeriesData = (days = 30) => {
   return Array.from({ length: days }, (_, i) => ({
@@ -36,15 +24,7 @@ const generateTimeSeriesData = (days = 30) => {
 };
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState('weekly');
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const stats = [
     {
@@ -64,10 +44,10 @@ const Dashboard = () => {
       color: 'green',
     },
     {
-      title: 'Inactive Users',
+      title: 'New Users',
       value: 3111,
       icon: RiUserLine,
-      trend: 'down',
+      trend: 'up',
       trendValue: '3%',
       color: 'gray',
     },
@@ -79,77 +59,24 @@ const Dashboard = () => {
       trendValue: '5.3%',
       color: 'emerald',
     },
-    {
-      title: 'Blocked Users',
-      value: 234,
-      icon: RiShieldUserLine,
-      color: 'purple',
-    },
-    {
-      title: "Today's Signups",
-      value: 156,
-      icon: RiUserAddLine,
-      trend: 'up',
-      trendValue: '24.5%',
-      color: 'blue',
-    },
-    {
-      title: 'Weekly Signups',
-      value: 842,
-      icon: RiCalendarLine,
-      trend: 'up',
-      trendValue: '12.8%',
-      color: 'green',
-    },
-    {
-      title: 'Growth Rate',
-      value: '18.6%',
-      icon: RiLineChartLine,
-      trend: 'up',
-      trendValue: '2.4%',
-      color: 'emerald',
-    },
-    {
-      title: 'Online Users',
-      value: 1432,
-      icon: RiUserStarLine,
-      color: 'blue',
-    },
-    {
-      title: 'Subscriptions',
-      value: 3245,
-      icon: RiVisaLine,
-      trend: 'up',
-      trendValue: '14.2%',
-      color: 'purple',
-    },
-    {
-      title: 'Total Revenue',
-      value: '$284,392.00',
-      icon: RiMoneyDollarCircleLine,
-      trend: 'up',
-      trendValue: '18.5%',
-      color: 'emerald',
-    },
-    {
-      title: 'Avg Session Time',
-      value: '4m 32s',
-      icon: RiTimeLine,
-      color: 'gray',
-    },
   ];
 
-  const visitorsByCountry = [
-    { id: 'USA', value: 845234 },
-    { id: 'GBR', value: 423123 },
-    { id: 'DEU', value: 324523 },
-    { id: 'IND', value: 312345 },
-    { id: 'BRA', value: 234523 },
+  const countryData = [
+    { country: 'United States', visitors: 845234 },
+    { country: 'United Kingdom', visitors: 423123 },
+    { country: 'Germany', visitors: 324523 },
+    { country: 'India', visitors: 312345 },
+    { country: 'Brazil', visitors: 234523 },
+    { country: 'Canada', visitors: 198234 },
+    { country: 'Australia', visitors: 176543 },
+    { country: 'France', visitors: 165432 },
+    { country: 'Japan', visitors: 154321 },
+    { country: 'Spain', visitors: 143210 }
   ];
 
   const deviceData = [
-    { id: 'Mobile', value: 45, color: '#3B82F6' },
-    { id: 'Desktop', value: 35, color: '#10B981' },
+    { id: 'Desktop', value: 45, color: '#3B82F6' },
+    { id: 'Mobile', value: 35, color: '#10B981' },
     { id: 'Tablet', value: 20, color: '#6366F1' },
   ];
 
@@ -160,42 +87,15 @@ const Dashboard = () => {
     },
   ];
 
-  const recentBlogs = [
-    {
-      id: 1,
-      title: "Getting Started with React 18's New Features",
-      excerpt: "Explore the latest features in React 18 including automatic batching, concurrent rendering, and the new Suspense SSR architecture.",
-      image: "https://picsum.photos/seed/react18/200/200",
-      date: "Mar 15, 2024",
-      readTime: 5,
-      category: "Technology"
-    },
-    {
-      id: 2,
-      title: "Modern Dashboard Design Principles",
-      excerpt: "Learn the key principles of creating effective and user-friendly dashboard interfaces for modern web applications.",
-      image: "https://picsum.photos/seed/design/200/200",
-      date: "Mar 14, 2024",
-      readTime: 4,
-      category: "Design"
-    },
-    {
-      id: 3,
-      title: "Optimizing Web Performance",
-      excerpt: "Essential techniques and best practices for improving your web application's performance and user experience.",
-      image: "https://picsum.photos/seed/performance/200/200",
-      date: "Mar 13, 2024",
-      readTime: 6,
-      category: "Technology"
-    }
-  ];
-
-  const mostVisitedUrls = [
-    { url: '/dashboard', visits: 1234 },
-    { url: '/products', visits: 956 },
-    { url: '/analytics', visits: 842 },
-    { url: '/users', visits: 765 },
-    { url: '/settings', visits: 654 }
+  const mostVisitedPages = [
+    { url: '/dashboard', visits: 12345, bounce: '23%', duration: '4m 12s' },
+    { url: '/products', visits: 9562, bounce: '31%', duration: '3m 45s' },
+    { url: '/analytics', visits: 8421, bounce: '28%', duration: '5m 16s' },
+    { url: '/users', visits: 7652, bounce: '35%', duration: '2m 58s' },
+    { url: '/settings', visits: 6543, bounce: '25%', duration: '3m 32s' },
+    { url: '/blog', visits: 5432, bounce: '29%', duration: '4m 05s' },
+    { url: '/pricing', visits: 4321, bounce: '33%', duration: '2m 47s' },
+    { url: '/about', visits: 3210, bounce: '27%', duration: '3m 18s' }
   ];
 
   const recentUsers = [
@@ -204,6 +104,9 @@ const Dashboard = () => {
       name: 'Emma Wilson',
       email: 'emma@example.com',
       status: 'active',
+      role: 'Admin',
+      lastLogin: '2024-03-15 14:30',
+      location: 'New York, USA',
       avatar: faker.image.avatar(),
     },
     {
@@ -211,6 +114,9 @@ const Dashboard = () => {
       name: 'James Brown',
       email: 'james@example.com',
       status: 'active',
+      role: 'Editor',
+      lastLogin: '2024-03-15 13:45',
+      location: 'London, UK',
       avatar: faker.image.avatar(),
     },
     {
@@ -218,6 +124,9 @@ const Dashboard = () => {
       name: 'Sophie Taylor',
       email: 'sophie@example.com',
       status: 'inactive',
+      role: 'User',
+      lastLogin: '2024-03-14 09:20',
+      location: 'Paris, France',
       avatar: faker.image.avatar(),
     },
     {
@@ -225,6 +134,9 @@ const Dashboard = () => {
       name: 'Michael Chen',
       email: 'michael@example.com',
       status: 'active',
+      role: 'Manager',
+      lastLogin: '2024-03-15 11:15',
+      location: 'Singapore',
       avatar: faker.image.avatar(),
     },
   ];
@@ -252,55 +164,117 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {loading
-          ? Array(12).fill(null).map((_, i) => <WidgetSkeleton key={i} />)
-          : stats.map((stat, index) => <StatsWidget key={index} {...stat} />)
-        }
+        {stats.map((stat, index) => (
+          <StatsWidget key={index} {...stat} />
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {loading ? (
-          <>
-            <ChartSkeleton />
-            <ChartSkeleton />
-          </>
-        ) : (
-          <>
-            <LineChart
-              data={chartData}
-              title="User Growth Trends"
-            />
-            <WorldMap data={visitorsByCountry} />
-          </>
-        )}
+        <LineChart
+          data={chartData}
+          title="User Growth Trends"
+        />
+        <DeviceBreakdown data={deviceData} />
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+        <h3 className="text-gray-900 dark:text-white text-lg font-semibold mb-6">
+          Most Visited Pages
+        </h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead>
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">URL</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Visits</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bounce Rate</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avg. Duration</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              {mostVisitedPages.map((page, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{page.url}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{page.visits.toLocaleString()}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{page.bounce}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{page.duration}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {loading ? (
-          <>
-            <TableSkeleton />
-            <ChartSkeleton />
-          </>
-        ) : (
-          <>
-            <RecentBlogs blogs={recentBlogs} />
-            <BarChart data={mostVisitedUrls} title="Most Visited Pages" />
-          </>
-        )}
-      </div>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h3 className="text-gray-900 dark:text-white text-lg font-semibold mb-6">
+            Visitors by Country
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Country</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Visitors</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {countryData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{item.country}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{item.visitors.toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {loading ? (
-          <>
-            <TableSkeleton />
-            <TableSkeleton />
-          </>
-        ) : (
-          <>
-            <UserList users={recentUsers} />
-            <DeviceBreakdown data={deviceData} />
-          </>
-        )}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h3 className="text-gray-900 dark:text-white text-lg font-semibold mb-6">
+            Recent Users
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">User</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Last Login</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Location</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                {recentUsers.map((user) => (
+                  <tr key={user.id}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <img className="h-8 w-8 rounded-full" src={user.avatar} alt="" />
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{user.name}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{user.role}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 py-1 text-xs rounded-full ${
+                        user.status === 'active'
+                          ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                          : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+                      }`}>
+                        {user.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{user.lastLogin}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{user.location}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
