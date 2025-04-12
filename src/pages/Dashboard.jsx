@@ -162,7 +162,23 @@ const Dashboard = () => {
           <option value="monthly">Monthly</option>
         </select>
       </div>
-
+      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-6 text-white">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Welcome to Your Dashboard</h1>
+            <p className="text-purple-100">
+              Track your platform's performance and growth metrics in real-time
+            </p>
+          </div>
+          <div className="hidden md:block">
+            <img
+              src="https://ui-avatars.com/api/?name=Admin+Dashboard&background=6366f1&color=fff"
+              alt="Dashboard"
+              className="w-24 h-24 rounded-lg shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
           <StatsWidget key={index} {...stat} />
@@ -259,11 +275,10 @@ const Dashboard = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{user.role}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        user.status === 'active'
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
-                          : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
-                      }`}>
+                      <span className={`px-2 py-1 text-xs rounded-full ${user.status === 'active'
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+                        : 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400'
+                        }`}>
                         {user.status}
                       </span>
                     </td>
